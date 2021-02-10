@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>WebSocket test</title>
+
+<script type="text/javascript">
+var ws;
+
+function log(s) 
+{
+	document.getElementById("log").innerHTML += s + "\n";
+}
+
+function sendMessage(s) 
+{
+	log(">> " + s);
+	ws.send(s);
+}
+
+function send() 
+{
+	sendMessage(document.getElementById("text").value);
+}
+
+function init() 
+{
+  var url = document.getElementById("url").value;
+	ws = new WebSocket(url);
+	ws.onopen = function() {
+		log("WebSocket opened : "+url);
+	}
+	ws.onclose = function() {
+		log("WebSocket closed");
+	}
+	ws.onmessage = function(e) {
+		log("<< " + e.data);
+	}
+}
+</script>
+
+</head>
+
+<body>
+  <select id="url">
+    <option value="wss://cw.ma.ru:9872">wss://cw.ma.ru:9872/</option>
+    <option value="wss://echo.websocket.org">wss://echo.websocket.org</option>
+  </select>
+  <button onclick="init()">Connect</button><br>
+  <textarea id="text" cols="40" rows="5">{
+  "Type": "Authentication",
+  "Token": "281646777144319",
+  "Number": "14007"
+}</textarea><button onclick="send()">Send</button>
+  <pre id="log"></pre>
+</body>
+</html>
