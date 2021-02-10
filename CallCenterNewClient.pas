@@ -353,6 +353,8 @@ begin
       except
         FClient.Disconnect;
         //?? todo log
+        MessageBox(0, Pchar(Exception(ExceptObject).Message),
+         PChar(Exception(ExceptObject).ClassName), MB_ICONEXCLAMATION);
       end;
     finally
       ThreadFinalize;
